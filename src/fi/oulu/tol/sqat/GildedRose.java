@@ -3,7 +3,7 @@ package fi.oulu.tol.sqat;
 import java.util.ArrayList;
 import java.util.List;
 
-
+// no bugs found
 public class GildedRose {
 
 	private static List<Item> items = null;
