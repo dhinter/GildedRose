@@ -50,6 +50,21 @@ public class GildedRoseTest {
 		Item itemBrie = items.get(0);
 		assertEquals(50, itemBrie.getQuality());
 	}
+	@Test
+	public void testUpdateEndOfDay_AgedBrie_Quality_Equals50() {
+		// Arrange
+		GildedRose store = new GildedRose();
+		store.addItem(new Item("Aged Brie", 2, 46) );
+		
+		// Act
+		store.updateEndOfDay();
+		store.updateEndOfDay();
+		store.updateEndOfDay();
+		// Assert
+		List<Item> items = store.getItems();
+		Item itemBrie = items.get(0);
+		assertEquals(50, itemBrie.getQuality());
+	}
 	
 	@Test
 	public void testUpdateEndOfDay_AgedBrie_IncreasingTwiceFast() {
@@ -67,6 +82,40 @@ public class GildedRoseTest {
 		List<Item> items = store.getItems();
 		Item itemBrie = items.get(0);
 		assertEquals(17, itemBrie.getQuality());
+	}
+	@Test
+	public void testUpdateEndOfDay_AgedBrie_SellIn() {
+		// Arrange
+		GildedRose store = new GildedRose();
+		store.addItem(new Item("Aged Brie", 1, 10) );
+		
+		// Act
+		store.updateEndOfDay();
+		store.updateEndOfDay();
+		store.updateEndOfDay();
+		store.updateEndOfDay();
+		
+		// Assert
+		List<Item> items = store.getItems();
+		Item itemBrie = items.get(0);
+		assertEquals(-3, itemBrie.getSellIn());
+	}
+	@Test
+	public void testUpdateEndOfDay_Sulfuras_SellInDecrease() {
+		// Arrange
+		GildedRose store = new GildedRose();
+		store.addItem(new Item("Sulfuras, Hand of Ragnaros", 0, 80)  );
+		
+		// Act
+		store.updateEndOfDay();
+		store.updateEndOfDay();
+		store.updateEndOfDay();
+		store.updateEndOfDay();
+		
+		// Assert
+		List<Item> items = store.getItems();
+		Item itemBrie = items.get(0);
+		assertEquals(0, itemBrie.getSellIn());
 	}
 	
 	@Test
@@ -86,7 +135,23 @@ public class GildedRoseTest {
 	}
 	
 	@Test
-	public void testUpdateEndOfDay_Item_DecreasingTwice() {
+	public void testUpdateEndOfDay_Item_QualityDecreasingNormal() {
+		// Arrange
+		GildedRose store = new GildedRose();
+		store.addItem(new Item("TestItem", 5, 7) );
+		
+		// Act
+		store.updateEndOfDay();
+		store.updateEndOfDay();
+		
+		// Assert
+		List<Item> items = store.getItems();
+		Item itemBrie = items.get(0);
+		assertEquals(5, itemBrie.getQuality());
+	}
+	
+	@Test
+	public void testUpdateEndOfDay_Item_QualityDecreasingTwice() {
 		// Arrange
 		GildedRose store = new GildedRose();
 		store.addItem(new Item("TestItem", 1, 20) );
@@ -120,14 +185,32 @@ public class GildedRoseTest {
 	}
 	
 	@Test
-	public void testUpdateEndOfDay_SulfurasQuality() {
+	public void testUpdateEndOfDay_Item_SellIn() {
+		// Arrange
+		GildedRose store = new GildedRose();
+		store.addItem(new Item("TestItem", 5, 20) );
+		
+		// Act
+		store.updateEndOfDay();
+		store.updateEndOfDay();
+		store.updateEndOfDay();
+		
+		// Assert
+		List<Item> items = store.getItems();
+		Item itemBrie = items.get(0);
+		assertEquals(2, itemBrie.getSellIn());
+	}
+	
+	@Test
+	public void testUpdateEndOfDay_SulfurasQualityStays80() {
 		// Arrange
 		GildedRose store = new GildedRose();
 		store.addItem(new Item("Sulfuras, Hand of Ragnaros", 0, 80) );
 		
 		// Act
 		store.updateEndOfDay();
-		
+		store.updateEndOfDay();
+		store.updateEndOfDay();
 		// Assert
 		List<Item> items = store.getItems();
 		Item itemBrie = items.get(0);
@@ -219,5 +302,19 @@ public class GildedRoseTest {
 		List<Item> items = store.getItems();
 		Item itemBrie = items.get(0);
 		assertEquals(28, itemBrie.getQuality());
+	}
+	@Test
+	public void testUpdateEndOfDay_BackstageQuality49AdditionBy3() {
+		// Arrange
+		GildedRose store = new GildedRose();
+		store.addItem(new Item("Backstage passes to a TAFKAL80ETC concert", 4 , 49) );
+		
+		// Act
+		store.updateEndOfDay();
+		//store.updateEndOfDay();
+		// Assert
+		List<Item> items = store.getItems();
+		Item itemBrie = items.get(0);
+		assertEquals(50, itemBrie.getQuality());
 	}
 }
